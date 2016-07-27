@@ -26,7 +26,7 @@ std::string _assert(bool check, std::string exp);
 void header(std::string file);
 int error(std::string msg, bool fatal = false, bool negateFatal = false);
 void alert(std::string msg, int color = 15);
-void pause();
+void console_pause();
 
 // Input
 int get_int(std::string prompt);

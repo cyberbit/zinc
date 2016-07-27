@@ -31,7 +31,7 @@ void header(string file = "Unknown program") {
 }
 
 // Pause console
-void pause() {
+void console_pause() {
     cin.clear();
     cout << "\nPress any key to continue...";
     cin.ignore();
