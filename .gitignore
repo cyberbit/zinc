@@ -1,1 +1,7 @@
 php/vendor/
+*.komodoproject
+cpp/Debug/
+*.cproject
+*.project
+cpp/.settings/
+cpp/spec.i
