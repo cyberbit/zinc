@@ -1,5 +1,1 @@
-.settings/
-Debug/
-.cproject
-.project
-spec.i
+php/vendor/
