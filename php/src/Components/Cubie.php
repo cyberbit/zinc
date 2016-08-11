@@ -2,8 +2,8 @@
 namespace Zinc\Components;
 
 abstract class CubieType extends \Zinc\BasicEnum {
-    const KEY = 0;
-    const EDGE = 1;
+    const KEY    = 0;
+    const EDGE   = 1;
     const CORNER = 2;
 }
 
@@ -19,6 +19,10 @@ class Cubie {
     
     public function __construct($value) {
         $this->m_value = $value;
+    }
+    
+    public function __toString() {
+        return $this->value();
     }
     
     // Return cubie value
