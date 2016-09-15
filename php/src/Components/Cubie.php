@@ -1,7 +1,7 @@
 <?php
 namespace Zinc\Components;
 
-abstract class CubieType extends \Zinc\BasicEnum {
+abstract class CubieType extends \Zinc\Lib\BasicEnum {
     const KEY    = 0;
     const EDGE   = 1;
     const CORNER = 2;

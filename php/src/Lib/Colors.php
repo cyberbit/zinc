@@ -1,5 +1,5 @@
 <?php
-namespace Zinc;
+namespace Zinc\Lib;
 
 /**
  * Colors class copied from http://www.if-not-true-then-false.com

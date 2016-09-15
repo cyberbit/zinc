@@ -1,5 +1,5 @@
 <?php
-namespace Zinc;
+namespace Zinc\Lib;
 
 class Utils {
     // Interface for forming colored console messages
@@ -12,10 +12,10 @@ class Utils {
     // Test console, colored console, and input
     public function consoleTest() {
         // Test output
-        echo "this is a console test\n";
+        echo "this is a console test".PHP_EOL;
         
         // Test colored output
-        echo $this->colors->getColoredString("this is a colored console test\n", "red");
+        echo $this->colors->getColoredString("this is a colored console test".PHP_EOL, "red");
         
         // Test input and return
         $input = $this->get_string("this is an input test: ", "light_blue");
@@ -48,12 +48,12 @@ class Utils {
     
     // Output an emphasized message 
     public function alert($msg, $color = null) {
-        echo $this->colors->getColoredString("\n *** $msg\n\n", $color);
+        echo $this->colors->getColoredString(PHP_EOL." *** $msg".PHP_EOL.PHP_EOL, $color);
     }
     
     // Pause the console until input is received
     public function console_pause() {
-        echo "\nPress ENTER to continue...";
+        echo PHP_EOL."Press ENTER to continue...";
         fgetc(STDIN);
     }
     
@@ -71,13 +71,13 @@ class Utils {
             return;
         }
         
-        echo "$msg\n";
+        echo "$msg".PHP_EOL;
         
         // Grab max item length
         $max = max(array_map("strlen", $items));
         
         foreach ($items as $key=>$item) {
-            echo "   ".str_pad($item, $max, " ", STR_PAD_LEFT)."  ".$list[$key]."\n";
+            echo "   ".str_pad($item, $max, " ", STR_PAD_LEFT)."  ".$list[$key]."".PHP_EOL;
         }
     }
 }

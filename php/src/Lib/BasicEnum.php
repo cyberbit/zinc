@@ -1,5 +1,5 @@
 <?php
-namespace Zinc;
+namespace Zinc\Lib;
 
 /**
  * BasicEnum class copied from http://stackoverflow.com/a/254543/3402854
