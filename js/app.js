@@ -24,7 +24,7 @@ $(function() {
         [-1, -1], []
     ];*/
     
-    console.log("alphabet: %o", ALPHABET);
+    //console.log("alphabet: %o", ALPHABET);
     //console.log("alphabet matrix: %o", ALPHABET_MATRIX);
     
     // Debug alphabet index
@@ -41,7 +41,7 @@ $(function() {
     //console.log("...which translates to %o", translation);
     
     // Define test string
-    var rawString = "HEMPF";
+    /*var rawString = "HEMPF";
     
     // Debug string index
     var stringIndex = stringToStringIndex(ALPHABET, rawString);
@@ -61,7 +61,12 @@ $(function() {
     
     // Debug encoded string
     var encodedString = stringIndexToString(ALPHABET, untranslation);
-    console.log("...which encodes to %o", encodedString);
+    console.log("...which encodes to %o", encodedString);*/
+    
+    // Handle encode button
+    $("#btn-encode").click(function() {
+        $("#encoded").text(encode(normalizeString($("#plaintext").val())));
+    });
 });
 
 function encode(string, alphabet, seed) {
@@ -80,7 +85,9 @@ function encode(string, alphabet, seed) {
     var untrans = translationToStringIndex(follow);
     console.debug("encode.untrans = %o", untrans);
     
-    return stringIndexToString(alphabet, untrans);
+    var encode = stringIndexToString(alphabet, untrans);
+    
+    return encode;
 }
 
 function decode(string, alphabet, seed) {
@@ -100,6 +107,32 @@ function decode(string, alphabet, seed) {
     console.debug("decode.untrans = %o", untrans);
     
     return stringIndexToString(alphabet, untrans);
+}
+
+function animateString(string, timeout) {
+    var split = string.split('');
+    var i = 0;
+    
+    //anim();
+    anim2();
+    
+    function anim() {
+        $(".alphabet-grid td").removeClass("red");
+        $('[data-s="' + split[i] + '"]').addClass("red");
+        
+        i++;
+        
+        if (i < split.length) setTimeout(anim, timeout);
+    }
+    
+    function anim2() {
+        var pos = $('[data-s="' + split[i] + '"]').position();
+        $(".grid-overlay").css({top: pos.top, left: pos.left});
+        
+        i++;
+        
+        if (i < split.length) setTimeout(anim2, timeout);
+    }
 }
 
 function alphabetToIndex(alphabet, value) {
@@ -197,6 +230,8 @@ function followTranslatedIndex(index, tindex) {
 function followTranslation(startIndex, translation) {
     var previous = startIndex;
     
+    
+    
     return translation.map(function(v) {
         var next = followTranslatedIndex(previous, v);
         
@@ -271,4 +306,10 @@ function stringIndexToString(alphabet, sindex) {
     return sindex.map(function(v) {
         return indexToAlphabet(alphabet, v);
     }).join('');
+}
+
+function normalizeString(string, alphabet) {
+    alphabet = alphabet || ALPHABET;
+    
+    return string.toUpperCase().split('').map(v => (alphabet.indexOf(v) == -1 ? '/' : v)).join('');
 }

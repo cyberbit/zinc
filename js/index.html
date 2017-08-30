@@ -1,17 +1,83 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
-    <title>Zinc</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <title>Zinc JS</title>
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    
+    <style>
+        .alphabet-grid {
+            font-size: 1.5em;
+            font-family: monospace;
+        }
+        
+        .alphabet-grid td {
+            padding: .5em 1em;
+            height: 50px;
+            width: 50px;
+            border: 2px solid darkgray;
+        }
+        
+        .alphabet-grid td.empty {
+            border: 0;
+        }
+        
+        .alphabet-grid td.red {
+            background-color: red;
+        }
+        
+        .grid-overlay {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-color: red;
+            z-index: -1;
+            transition: top .1s, left .1s;
+        }
+    </style>
 </head>
 
 <body>
-    <h1>It works!</h1>
+    <div class="container">
+        <h1 class="text-center">Zinc Easy</h1>
+        
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-6">
+                <form>
+                    <div class="form-group">
+                        <label>Plaintext:</label>
+                        <textarea class="form-control" id="plaintext" rows="5"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Encoded text:</label>
+                        <textarea class="form-control" id="encoded" rows="5"></textarea>
+                    </div>
+                    <button type="button" class="btn btn-primary" id="btn-encode">Encode</button>
+                    <button type="button" class="btn btn-default" id="btn-decode">Decode</button>
+                </form>
+                <p></p>
+                <table class="alphabet-grid">
+                    <tr><td data-s="A">A</td><td data-s="B">B</td><td data-s="C">C</td><td class="empty"></td><td data-s="J">J</td><td data-s="K">K</td><td data-s="L">L</td><td class="empty"></td><td data-s="R">R</td><td data-s="S">S</td><td data-s="T">T</td></tr>
+                    <tr><td data-s="D">D</td><td data-s="E">E</td><td data-s="F">F</td><td class="empty"></td><td data-s="M">M</td><td data-s="/">/</td><td data-s="N">N</td><td class="empty"></td><td data-s="U">U</td><td data-s="V">V</td><td data-s="W">W</td></tr>
+                    <tr><td data-s="G">G</td><td data-s="H">H</td><td data-s="I">I</td><td class="empty"></td><td data-s="O">O</td><td data-s="P">P</td><td data-s="Q">Q</td><td class="empty"></td><td data-s="X">X</td><td data-s="Y">Y</td><td data-s="Z">Z</td></tr>
+                </table>
+                <div class="grid-overlay"></div>
+            </div>
+        </div>
+    </div>
     
-    <!-- Content here -->
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
     
-    <script
-      src="https://code.jquery.com/jquery-3.2.1.min.js"
-      integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-      crossorigin="anonymous"></script>
     <script src="app.js"></script>
 </body>
 
