@@ -83,6 +83,25 @@ function encode(string, alphabet, seed) {
     return stringIndexToString(alphabet, untrans);
 }
 
+function decode(string, alphabet, seed) {
+    alphabet = alphabet || ALPHABET;
+    seed = seed || SEED;
+    
+    var sindex = stringToStringIndex(alphabet, string);
+    console.debug("decode.sindex = %o", sindex);
+    
+    var trans = stringIndexToTranslation(sindex);
+    console.debug("decode.trans = %o", trans);
+    
+    var unfollow = unfollowTranslation(translateIndex(alphabetToIndex(alphabet, seed)), trans);
+    console.debug("decode.unfollow = %o", unfollow);
+    
+    var untrans = translationToStringIndex(unfollow);
+    console.debug("decode.untrans = %o", untrans);
+    
+    return stringIndexToString(alphabet, untrans);
+}
+
 function alphabetToIndex(alphabet, value) {
     /**
      * Decoding cheat sheet (slice-row-column = z-y-x)
@@ -182,6 +201,32 @@ function followTranslation(startIndex, translation) {
         var next = followTranslatedIndex(previous, v);
         
         previous = next;
+        
+        return next;
+    });
+}
+
+function unfollowTranslatedIndex(index, tindex) {
+    var ufindex = index.map(function(v, i) {
+        var j = tindex[i] - v;
+        
+        // Wrap translated index if needed
+        if (j === -2) j = 1;
+        else if (j === 2) j = -1;
+        
+        return j;
+    });
+    
+    return ufindex;
+}
+
+function unfollowTranslation(startIndex, translation) {
+    var previous = startIndex;
+    
+    return translation.map(function(v) {
+        var next = unfollowTranslatedIndex(previous, v);
+        
+        previous = v;
         
         return next;
     });
