@@ -29,7 +29,7 @@ $(function() {
     
     // Debug alphabet index
     /*$.each(ALPHABET.split(''), function(i, v) {
-        console.log("index of %o: %o", v, JSON.stringify(reduceIndex(alphabetToIndex(ALPHABET, v))));
+        console.log("index of %o: %o", v, JSON.stringify(reduceIndex(atoi(ALPHABET, v))));
     });*/
     
     //// Debug reduction
@@ -52,7 +52,7 @@ $(function() {
     console.log("...which translates to %o", translation);
     
     // Debug follow
-    var follow = followTranslation(translateIndex(alphabetToIndex(ALPHABET, SEED)), translation);
+    var follow = followTranslation(translateIndex(atoi(ALPHABET, SEED)), translation);
     console.log("...which follows to %o", follow);
     
     // Debug untranslation
@@ -65,11 +65,16 @@ $(function() {
     
     // Handle encode button
     $("#btn-encode").click(function() {
-        $("#encoded").text(encode(normalizeString($("#plaintext").val())));
+        $("#encoded").val(encodeLight(normalizeString($("#plaintext").val())));
+    });
+    
+    // Handle decode button
+    $("#btn-decode").click(function() {
+        $("#plaintext").val(decodeLight(normalizeString($("#encoded").val())));
     });
 });
 
-function encode(string, alphabet, seed) {
+/*function encode(string, alphabet, seed) {
     alphabet = alphabet || ALPHABET;
     seed = seed || SEED;
     
@@ -79,7 +84,7 @@ function encode(string, alphabet, seed) {
     var trans = stringIndexToTranslation(sindex);
     console.debug("encode.trans = %o", trans);
     
-    var follow = followTranslation(translateIndex(alphabetToIndex(alphabet, seed)), trans);
+    var follow = followTranslation(translateIndex(atoi(alphabet, seed)), trans);
     console.debug("encode.follow = %o", follow);
     
     var untrans = translationToStringIndex(follow);
@@ -88,9 +93,35 @@ function encode(string, alphabet, seed) {
     var encode = stringIndexToString(alphabet, untrans);
     
     return encode;
+}*/
+
+function encodeLight(string, alphabet, seed) {
+    alphabet = alphabet || ALPHABET;
+    seed = seed || SEED;
+    
+    var previous = atoi(alphabet, seed).map(v => v - 1);
+    
+    return string.split('').map(function(v) {
+        // String to string index to translation
+        var trans = atoi(alphabet, v).map(v => v - 1);
+        
+        // Follow translation
+        previous = previous.map(function(v, i) {
+            var j = v + trans[i];
+            
+            // Wrap translated index if needed
+            if (j === -2) j = 1;
+            else if (j === 2) j = -1;
+            
+            return j;
+        });
+        
+        // Translation to string index to string
+        return itoa(alphabet, previous.map(w => w + 1));
+    }).join('');
 }
 
-function decode(string, alphabet, seed) {
+/*function decode(string, alphabet, seed) {
     alphabet = alphabet || ALPHABET;
     seed = seed || SEED;
     
@@ -100,16 +131,43 @@ function decode(string, alphabet, seed) {
     var trans = stringIndexToTranslation(sindex);
     console.debug("decode.trans = %o", trans);
     
-    var unfollow = unfollowTranslation(translateIndex(alphabetToIndex(alphabet, seed)), trans);
+    var unfollow = unfollowTranslation(translateIndex(atoi(alphabet, seed)), trans);
     console.debug("decode.unfollow = %o", unfollow);
     
     var untrans = translationToStringIndex(unfollow);
     console.debug("decode.untrans = %o", untrans);
     
     return stringIndexToString(alphabet, untrans);
+}*/
+
+function decodeLight(string, alphabet, seed) {
+    alphabet = alphabet || ALPHABET;
+    seed = seed || SEED;
+    
+    var previous = atoi(alphabet, seed).map(v => v - 1);
+    
+    return string.split('').map(function(v) {
+        // String to string index to translation
+        var trans = atoi(alphabet, v).map(v => v - 1);
+        
+        // Follow translation
+        var next = previous.map(function(v, i) {
+            var j = trans[i] - v;
+            
+            // Wrap translated index if needed
+            if (j === -2) j = 1;
+            else if (j === 2) j = -1;
+            
+            return j;
+        });
+        previous = trans;
+        
+        // Translation to string index to string
+        return itoa(alphabet, next.map(w => w + 1));
+    }).join('');
 }
 
-function animateString(string, timeout) {
+/*function animateString(string, timeout) {
     var split = string.split('');
     var i = 0;
     
@@ -133,9 +191,9 @@ function animateString(string, timeout) {
         
         if (i < split.length) setTimeout(anim2, timeout);
     }
-}
+}*/
 
-function alphabetToIndex(alphabet, value) {
+function atoi(alphabet, value) {
     /**
      * Decoding cheat sheet (slice-row-column = z-y-x)
      *
@@ -172,9 +230,9 @@ function alphabetToIndex(alphabet, value) {
     return [z, y, x];
 }
 
-function stringToStringIndex(alphabet, string) {
+/*function stringToStringIndex(alphabet, string) {
     return string.split('').map(function(v) {
-        return alphabetToIndex(alphabet, v);
+        return atoi(alphabet, v);
     });
 }
 
@@ -184,7 +242,7 @@ function reduceIndex(index) {
 
 function stringToReduction(alphabet, string) {
     return string.split('').map(function(v) {
-        return reduceIndex(alphabetToIndex(alphabet, v));
+        return reduceIndex(atoi(alphabet, v));
     });
 }
 
@@ -230,8 +288,6 @@ function followTranslatedIndex(index, tindex) {
 function followTranslation(startIndex, translation) {
     var previous = startIndex;
     
-    
-    
     return translation.map(function(v) {
         var next = followTranslatedIndex(previous, v);
         
@@ -273,9 +329,9 @@ function untranslateIndex(tindex) {
 
 function translationToStringIndex(translation) {
     return translation.map((v) => untranslateIndex(v));
-}
+}*/
 
-function indexToAlphabet(alphabet, index) {
+function itoa(alphabet, index) {
     /**
      * Decoding cheat sheet (slice-row-column = z-y-x)
      *
@@ -302,11 +358,11 @@ function indexToAlphabet(alphabet, index) {
     return alphabet.substr(i, 1);
 }
 
-function stringIndexToString(alphabet, sindex) {
+/*function stringIndexToString(alphabet, sindex) {
     return sindex.map(function(v) {
-        return indexToAlphabet(alphabet, v);
+        return itoa(alphabet, v);
     }).join('');
-}
+}*/
 
 function normalizeString(string, alphabet) {
     alphabet = alphabet || ALPHABET;
